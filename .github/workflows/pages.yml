@@ -5,10 +5,10 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       pages: write
       id-token: write
     steps:
@@ -20,21 +20,6 @@ jobs:
           node-version: '18'
       - run: npm install
       - run: npm run build
-      - name: Upload build (artifact not required for peaceiris)
-        run: echo "build complete"
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: true
-          fetch-depth: 0
       - name: Deploy to GitHub Pages via peaceiris
         uses: peaceiris/actions-gh-pages@v4
         with:
